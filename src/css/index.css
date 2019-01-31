@@ -1,0 +1,28 @@
+.customTitleInput {
+  border: none;
+  border-bottom: 2px solid #ddddde !important;
+  font-weight: 200;
+  color: #676868;
+  padding-left: 0;
+  outline: none;
+  margin-right: 10px;
+  margin-bottom: 12px;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+}
+
+.aBitMargin {
+  margin-right: 10px;
+}
+
+.title-wrapper {
+  display: -webkit-inline-box;
+}
+
+.title-wrapper > .ui.mini.button {
+  line-height: 0.4em!important;
+}
+
+.title-wrapper > .ui.buttons > .ui.mini.button {
+  line-height: 0.4em!important;
+  font-size: .78571429rem;
+}

@@ -4,7 +4,7 @@
   "description": "An editable title implementation for the react.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,30 @@
   "bugs": {
     "url": "https://github.com/CeamKrier/react-editable-title/issues"
   },
-  "homepage": "https://github.com/CeamKrier/react-editable-title#readme"
+  "homepage": "https://github.com/CeamKrier/react-editable-title#readme",
+  "dependencies": {
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.84.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.8.0",
+    "jest": "^24.0.0",
+    "sinon": "^7.2.3"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|less)$": "<rootDir>/config/CSSStub.js"
+    }
+  },
+  "babel": {
+    "presets": ["@babel/preset-env", "@babel/preset-react"],
+    "plugins": [
+      ["@babel/transform-runtime"]
+    ]
+  }
 }
