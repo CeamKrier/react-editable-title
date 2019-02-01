@@ -4,6 +4,7 @@
   "description": "An editable title implementation for the react.",
   "main": "index.js",
   "scripts": {
+    "start": "webpack-dev-server --config ./webpack.config.js --inline --hot --port 2000",
     "test": "jest"
   },
   "repository": {
@@ -31,20 +32,26 @@
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^2.1.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.8.0",
+    "file-loader": "^3.0.1",
     "jest": "^24.0.0",
-    "sinon": "^7.2.3"
+    "react-hot-loader": "^4.6.5",
+    "sinon": "^7.2.3",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
   },
   "jest": {
     "moduleNameMapper": {
       "^.+\\.(css|less)$": "<rootDir>/config/CSSStub.js"
     }
-  },
-  "babel": {
-    "presets": ["@babel/preset-env", "@babel/preset-react"],
-    "plugins": [
-      ["@babel/transform-runtime"]
-    ]
   }
 }
