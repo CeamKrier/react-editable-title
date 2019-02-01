@@ -1,4 +1,4 @@
-# react-editable-title
+# react-editable-title [![Build Status](https://travis-ci.org/CeamKrier/react-editable-title.svg?branch=master)](https://travis-ci.org/CeamKrier/react-editable-title)
 
 An editable title implementation for react.
 
