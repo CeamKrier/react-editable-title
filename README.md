@@ -23,6 +23,8 @@ handleNewTitle (data) {
 
 ```
 
+[![Edit 7w063kppz6](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/7w063kppz6)
+
 
 
 ## Features
