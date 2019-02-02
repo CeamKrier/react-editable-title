@@ -1,6 +1,6 @@
 {
   "name": "react-editable-title",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An editable title implementation for the react.",
   "main": "index.js",
   "scripts": {
@@ -38,6 +38,7 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.8.0",
     "file-loader": "^3.0.1",
+    "jest": "^24.0.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-hot-loader": "^4.6.5",

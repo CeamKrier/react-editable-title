@@ -55,4 +55,4 @@ Thanks :raised_hands:
 
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[GPL](https://choosealicense.com/licenses/gpl-3.0/)
