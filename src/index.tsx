@@ -6,6 +6,7 @@ interface EditableProps {
   editButton?: boolean;
   editControls?: boolean;
   placeholder?: string;
+  seamlessInput?: boolean;
   cb: (currentText: string) => any;
 }
 
@@ -14,11 +15,13 @@ const Editable: React.FC<EditableProps> = ({
   editButton = false,
   editControls = false,
   placeholder = 'Type Here',
+  seamlessInput = false,
   cb
 }) => {
   const [editing, setEditing] = useState(false)
   const [displayText, setDisplayText] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+  const displayTextRef = useRef<HTMLSpanElement>(null)
 
   const handleClickOnText = useCallback(
     () => {
@@ -34,7 +37,7 @@ const Editable: React.FC<EditableProps> = ({
 
   const updateDisplayText = useCallback(
     () => {
-      setDisplayText(inputRef.current?.value || '<Oops>')
+      setDisplayText(inputRef.current?.value || '*')
     },
     [],
   )
@@ -71,20 +74,30 @@ const Editable: React.FC<EditableProps> = ({
     [],
   )
 
+  const calculateDimensions = useMemo(() => {
+    return {
+       width: displayTextRef.current?.offsetWidth,
+       height: displayTextRef.current?.offsetHeight 
+      }
+  }, [editing])
+
   return useMemo(() => {
     return (
       <React.Fragment>
   
-          <div className='title-wrapper'>
+          <div 
+            className='title-wrapper'
+            style={seamlessInput ? calculateDimensions : undefined}>
             <input 
-              className={`customTitleInput ${editControls ? '' : 'bendRightSide'}`}
-              style={editing ? undefined : { display: 'none' }} 
+              className={`${seamlessInput ? 'seamlessInput' : 'customTitleInput'} ${editControls ? '' : 'bendRightSide'}`}
+              style={editing ? undefined : { display: 'none' }}
               ref={inputRef} 
               placeholder={placeholder}
               value={displayText}
               onChange={updateDisplayText}
               onKeyDown={handleKeyDown}/>
-            <span 
+            <span
+              ref={displayTextRef}
               className='displayText' 
               style={!editing ? undefined : { display: 'none' }} 
               onClick={handleClickOnText}>
@@ -105,7 +118,6 @@ const Editable: React.FC<EditableProps> = ({
               editControls ? 
                 <React.Fragment>
                   <button
-                    hidden={editControls}
                     className={`mainButton save ${editControls ? 'showControl' : 'hideControl'}`} 
                     style={editing ? undefined : { display: 'none' }}
                     onClick={handleSaveText}
@@ -113,7 +125,6 @@ const Editable: React.FC<EditableProps> = ({
                       <i className="gg-check" />
                   </button>
                   <button
-                    hidden={editControls}
                     className={`mainButton cancel ${editControls ? 'showControl' : 'hideControl'}`} 
                     style={editing ? undefined : { display: 'none' }}
                     onClick={terminateEditing}>

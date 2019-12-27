@@ -36,8 +36,11 @@ const Showcase: React.FC = () => {
             and <b>'Enter'</b> keys as well.
           </p>
           <p>
-            After you save a new title, it will be availabe at the parent
-            component's state.
+            Save button won`t be enabled until the user change the content. Also, the <b>'Enter'</b>
+             won`t trigger, too.
+          </p>
+          <p>
+            Also, you can use the <b>seamless</b> styling of the component as illustrated below.
           </p>
           <table className="pure-table" style={{ width: '100%' }}>
             <thead>
@@ -56,7 +59,7 @@ const Showcase: React.FC = () => {
                     <td>
                       <Editable 
                         text={hondaModel} 
-                        
+                        seamlessInput
                         placeholder="Type here"
                         cb={handleHondaModelUpdate}
                       />
