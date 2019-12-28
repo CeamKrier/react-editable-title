@@ -26,7 +26,7 @@ const Showcase: React.FC = () => {
         <Editable 
           text={text} 
           editButton
-          editControls
+          editControlButtons
           placeholder="Type here"
           cb={handleTextUpdate}
           />

@@ -1,21 +1,39 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react'
+import React, { useState, useCallback, useRef, useMemo, CSSProperties } from 'react'
 import '../src/css/index.css'
 
 interface EditableProps {
   text: string;
   editButton?: boolean;
-  editControls?: boolean;
+  editControlButtons?: boolean;
   placeholder?: string;
   seamlessInput?: boolean;
+  textStyle?: CSSProperties;
+  inputStyle?: CSSProperties;
+  editButtonStyle?: CSSProperties;
+  saveButtonStyle?: CSSProperties;
+  cancelButtonStyle?: CSSProperties;
   cb: (currentText: string) => any;
+}
+
+/**
+ * Keyboard Event Key-codes
+ */
+enum Key {
+  Enter = 13,
+  ESC = 27
 }
 
 const Editable: React.FC<EditableProps> = ({
   text,
   editButton = false,
-  editControls = false,
+  editControlButtons = false,
   placeholder = 'Type Here',
   seamlessInput = false,
+  textStyle,
+  inputStyle,
+  editButtonStyle,
+  saveButtonStyle,
+  cancelButtonStyle,
   cb
 }) => {
   const [editing, setEditing] = useState(false)
@@ -27,7 +45,14 @@ const Editable: React.FC<EditableProps> = ({
     () => {
       setEditing(!editing)
       setDisplayText(text)
-      // A little hack to wait event-loop to flush-out itself
+      /* 
+         A little hack to wait event-loop to flush-out itself
+         The issue is, when the user clicked on the text 
+         or the edit button, the focus instantly being given
+         to the input element. But, it`s not visible at the moment.
+         By calling the `setTimeout`, function call will be done
+         after the event-loop has executed all the functions.
+      */
       setTimeout(() => {
         inputRef.current?.focus()
       }, 0);
@@ -53,10 +78,10 @@ const Editable: React.FC<EditableProps> = ({
     (event) => {
       const stroke = event.keyCode || event.which
 
-      if (stroke === 13 && text !== inputRef.current?.value) {
+      if (stroke === Key.Enter && text !== inputRef.current?.value) {
         handleSaveText()
         terminateEditing()
-      } else if (stroke === 27) {
+      } else if (stroke === Key.ESC) {
         terminateEditing()
       }
     },
@@ -89,8 +114,12 @@ const Editable: React.FC<EditableProps> = ({
             className='title-wrapper'
             style={seamlessInput ? calculateDimensions : undefined}>
             <input 
-              className={`${seamlessInput ? 'seamlessInput' : 'customTitleInput'} ${editControls ? '' : 'bendRightSide'}`}
-              style={editing ? undefined : { display: 'none' }}
+              className=
+              {
+                `${seamlessInput ? 'seamlessInput' : 'customTitleInput'} 
+                 ${editControlButtons ? '' : 'bendRightSide'}`
+              }
+              style={editing ? {...inputStyle} : { display: 'none' }}
               ref={inputRef} 
               placeholder={placeholder}
               value={displayText}
@@ -99,7 +128,7 @@ const Editable: React.FC<EditableProps> = ({
             <span
               ref={displayTextRef}
               className='displayText' 
-              style={!editing ? undefined : { display: 'none' }} 
+              style={!editing ? {...textStyle} : { display: 'none' }} 
               onClick={handleClickOnText}>
                 {text}
             </span>
@@ -107,7 +136,7 @@ const Editable: React.FC<EditableProps> = ({
               editButton ? 
                 <button
                   className={`mainButton edit ${editButton ? 'showControl' : 'hideControl'}`}
-                  style={!editing ? undefined : { display: 'none' }}
+                  style={!editing ? {...editButtonStyle} : { display: 'none' }}
                   onClick={handleClickOnText}>
                     <i className="gg-pen" />
                 </button>
@@ -115,18 +144,18 @@ const Editable: React.FC<EditableProps> = ({
                 undefined
             }
             {
-              editControls ? 
+              editControlButtons ? 
                 <React.Fragment>
                   <button
-                    className={`mainButton save ${editControls ? 'showControl' : 'hideControl'}`} 
-                    style={editing ? undefined : { display: 'none' }}
+                    className={`mainButton save ${editControlButtons ? 'showControl' : 'hideControl'}`} 
+                    style={editing ? {...saveButtonStyle} : { display: 'none' }}
                     onClick={handleSaveText}
                     disabled={text === displayText}>
                       <i className="gg-check" />
                   </button>
                   <button
-                    className={`mainButton cancel ${editControls ? 'showControl' : 'hideControl'}`} 
-                    style={editing ? undefined : { display: 'none' }}
+                    className={`mainButton cancel ${editControlButtons ? 'showControl' : 'hideControl'}`} 
+                    style={editing ? {...cancelButtonStyle} : { display: 'none' }}
                     onClick={terminateEditing}>
                       <i className="gg-close" />
                   </button>
