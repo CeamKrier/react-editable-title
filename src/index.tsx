@@ -1,6 +1,14 @@
 import React, { useState, useCallback, useRef, useMemo, CSSProperties } from 'react'
 import '../src/css/index.css'
 
+/**
+ * Keyboard Event Key-codes
+ */
+enum Key {
+  Enter = 13,
+  ESC = 27
+}
+
 interface EditableProps {
   text: string;
   editButton?: boolean;
@@ -12,16 +20,13 @@ interface EditableProps {
   editButtonStyle?: CSSProperties;
   saveButtonStyle?: CSSProperties;
   cancelButtonStyle?: CSSProperties;
+  inputPattern?: string;
+  inputMinLength?: number;
+  inputMaxLength?: number;
   cb: (currentText: string) => any;
 }
 
-/**
- * Keyboard Event Key-codes
- */
-enum Key {
-  Enter = 13,
-  ESC = 27
-}
+
 
 const Editable: React.FC<EditableProps> = ({
   text,
@@ -34,6 +39,9 @@ const Editable: React.FC<EditableProps> = ({
   editButtonStyle,
   saveButtonStyle,
   cancelButtonStyle,
+  inputPattern,
+  inputMinLength,
+  inputMaxLength,
   cb
 }) => {
   const [editing, setEditing] = useState(false)
@@ -62,7 +70,9 @@ const Editable: React.FC<EditableProps> = ({
 
   const updateDisplayText = useCallback(
     () => {
-      setDisplayText(inputRef.current?.value || '*')
+
+        setDisplayText(inputRef.current?.value || '*')
+
     },
     [],
   )
@@ -124,7 +134,11 @@ const Editable: React.FC<EditableProps> = ({
               placeholder={placeholder}
               value={displayText}
               onChange={updateDisplayText}
-              onKeyDown={handleKeyDown}/>
+              onKeyDown={handleKeyDown}
+              pattern={inputPattern}
+              minLength={inputMinLength}
+              maxLength={inputMaxLength}
+              />
             <span
               ref={displayTextRef}
               className='displayText' 

@@ -28,6 +28,9 @@ const Showcase: React.FC = () => {
           editButton
           editControlButtons
           placeholder="Type here"
+          inputMaxLength={6}
+          inputMinLength={2}
+          inputPattern="[0-9]+"
           cb={handleTextUpdate}
           />
           <p />
