@@ -70,9 +70,7 @@ const Editable: React.FC<EditableProps> = ({
 
   const updateDisplayText = useCallback(
     () => {
-
         setDisplayText(inputRef.current?.value || '*')
-
     },
     [],
   )
@@ -90,7 +88,6 @@ const Editable: React.FC<EditableProps> = ({
 
       if (stroke === Key.Enter && text !== inputRef.current?.value) {
         handleSaveText()
-        terminateEditing()
       } else if (stroke === Key.ESC) {
         terminateEditing()
       }
@@ -98,12 +95,30 @@ const Editable: React.FC<EditableProps> = ({
     [text],
   )
 
-  const handleSaveText = useCallback(
+  const saveText = useCallback(
     () => {
       terminateEditing()
+      cb(inputRef.current!.value)
+      inputRef.current!.value = ''
+    },
+    [],
+  )
+
+  const handleSaveText = useCallback(
+    () => {
       if (inputRef.current) {
-        cb(inputRef.current.value)
-        inputRef.current.value = ''
+        if (inputPattern) {
+          if (inputRef.current.value.match(new RegExp(inputPattern))) {
+            saveText()
+            console.log('pattern has matched, input saved')
+          } else {
+            console.log('pattern does not match with input')
+          }
+        } else {
+          saveText()
+          console.log('no pattern provided, input saved')
+        }
+        
       }
     },
     [],
@@ -135,7 +150,6 @@ const Editable: React.FC<EditableProps> = ({
               value={displayText}
               onChange={updateDisplayText}
               onKeyDown={handleKeyDown}
-              pattern={inputPattern}
               minLength={inputMinLength}
               maxLength={inputMaxLength}
               />
