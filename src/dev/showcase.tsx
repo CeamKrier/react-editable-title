@@ -45,8 +45,13 @@ const Showcase: React.FC = () => {
              won`t trigger, too.
           </p>
           <p>
-            Also, you can use the <b>seamless</b> styling of the component as illustrated below.
+            You can use the <b>seamless</b> styling of the component as illustrated below.
           </p>
+          <p>
+            For the sake illustration, model names limited to accept <b>only letters</b>. Also, year can accept <b>only numbers</b> as an input.
+            Other inputs will generate an error message below the input field.
+          </p>
+          <p>All of those are extremely customizable though the exposed props. Check the <a href="https://github.com/CeamKrier/react-editable-title#api">docs</a> for it!</p>
           <table className="pure-table" style={{ width: '100%' }}>
             <thead>
                 <tr>
@@ -65,7 +70,10 @@ const Showcase: React.FC = () => {
                       <Editable 
                         text={hondaModel} 
                         seamlessInput
-                        placeholder="Type here"
+                        placeholder="Type model here"
+                        inputErrorMessage='Only letters allowed'
+                        inputErrorMessageStyle={{color: 'red'}}
+                        inputPattern="^[A-Za-z]*$"
                         cb={handleHondaModelUpdate}
                       />
                     </td>
@@ -73,8 +81,8 @@ const Showcase: React.FC = () => {
                     <Editable 
                         text={`${hondaYear}`} 
                         seamlessInput
-                        placeholder="Type here"
-                        inputErrorMessage='Only numbers'
+                        placeholder="Type year here"
+                        inputErrorMessage='Only numbers allowed'
                         inputErrorMessageStyle={{color: 'blue'}}
                         inputPattern="^[0-9]*$"
                         cb={handleHondaYearUpdate}

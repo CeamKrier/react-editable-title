@@ -75,7 +75,7 @@ const Editable: React.FC<EditableProps> = ({
 
   const updateDisplayText = useCallback(
     () => {
-        setDisplayText(inputRef.current?.value || '*')
+        setDisplayText(inputRef.current!.value)
         if (popupVisibile) {
           setPopupVisible(false)
         }
@@ -108,25 +108,21 @@ const Editable: React.FC<EditableProps> = ({
     () => {
       terminateEditing()
       cb(inputRef.current!.value)
-      inputRef.current!.value = ''
     },
     [],
   )
 
   const handleSaveText = useCallback(
     () => {
-      if (inputRef.current) {
+      if (inputRef.current && inputRef.current.value.trim() !== '') {
         if (inputPattern) {
           if (inputRef.current.value.match(new RegExp(inputPattern))) {
             saveText()
-            console.log('pattern has matched, input saved')
           } else {
             setPopupVisible(true)
-            console.log('pattern does not match with input')
           }
         } else {
           saveText()
-          console.log('no pattern provided, input saved')
         }
         
       }
@@ -154,7 +150,7 @@ const Editable: React.FC<EditableProps> = ({
                 `${seamlessInput ? 'seamlessInput' : 'customTitleInput'} 
                  ${editControlButtons ? '' : 'bendRightSide'}`
               }
-              style={editing ? {...inputStyle} : { display: 'none' }}
+              style={editing ? {...inputStyle, minWidth: `${placeholder.length * 8}px`} : { display: 'none' }}
               ref={inputRef} 
               placeholder={placeholder}
               value={displayText}

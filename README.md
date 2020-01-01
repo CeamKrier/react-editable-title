@@ -40,24 +40,33 @@ const App = () => {
 
 ## API
 
-| Attribute            | Type            | Description                                                                        | Required |
-|----------------------|-----------------|------------------------------------------------------------------------------------|----------|
-| `text`               | `string`        | Text to be displayed                                                               | **Yes**  |
-| `cb`                 | `function`      | Callback function that will be called when the text has edited                     | **Yes**  |
-| `editButton`         | `boolean`       | Sets the visibility of the edit button. **Default** is `false`                     | No       |
-| `editControlButtons` | `boolean`       | Sets the visibility of the control buttons. **Default** is `false`                 | No       |
-| `placeholder`        | `string`        | Placeholder text of the input element                                              | No       |
-| `seamlessInput`      | `boolean`       | Removes all stylings to infer text-editor alike experience. **Default** is `false` | No       |
-| `textStyle`          | `CSSProperties` | Custom styling                                                                     | No       |
-| `inputStyle`         | `CSSProperties` | Custom styling                                                                     | No       |
-| `editButtonStyle`    | `CSSProperties` | Custom styling                                                                     | No       |
-| `saveButtonStyle`    | `CSSProperties` | Custom styling                                                                     | No       |
-| `cancelButtonStyle`  | `CSSProperties` | Custom styling                                                                     | No       |
+| Attribute                | Type            | Description                                                        | Required |
+|--------------------------|-----------------|--------------------------------------------------------------------|----------|
+| `text`                   | `string`        | Text to be displayed                                               | **Yes**  |
+| `textStyle`              | `CSSProperties` | Custom text styling                                                | No       |
+| `cb`                     | `function`      | Callback function invoked when the text has edited                 | **Yes**  |
+| `editButton`             | `boolean`       | Sets the visibility of the edit button. **Default** is `false`     | No       |
+| `editButtonStyle`        | `CSSProperties` | Custom edit button styling                                         | No       |
+| `editControlButtons`     | `boolean`       | Sets the visibility of the control buttons. **Default** is `false` | No       |
+| `saveButtonStyle`        | `CSSProperties` | Custom save button styling                                         | No       |
+| `cancelButtonStyle`      | `CSSProperties` | Custom cancel button styling                                       | No       |
+| `placeholder`            | `string`        | Placeholder text of the input element                              | No       |
+| `seamlessInput`          | `boolean`       | Presents text-editor alike experience. **Default** is `false`      | No       |
+| `inputStyle`             | `CSSProperties` | Custom input styling                                               | No       |
+| `inputPattern`           | `string`        | Regex pattern of desired input                                     | No       |
+| `inputErrorMessage`      | `string`        | Info message about mismatch of input                               | No       |
+| `inputErrorMessageStyle` | `CSSProperties` | Custom error message styling                                       | No       |
+| `inputMinLength`         | `number`        | Min length accepted as an input                                    | No       |
+| `inputMaxLength`         | `number`        | Max length accepted as an input                                    | No       |
+
 
 
 ## Features
 The component can be controlled by keyboard keys. Hit **Enter** to save or **Esc** to cancel your edit.
 If there is **no** change in the text, neither **Enter** nor the **Edit** button would work.
+
+You also can control the validity of inputs with the **regex** you would provide. If the regex won't match the user input
+then your desired **error message** will be shown below of the input field.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
