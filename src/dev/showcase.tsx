@@ -51,7 +51,6 @@ const Showcase: React.FC = () => {
             For the sake illustration, model names limited to accept <b>only letters</b>. Also, year can accept <b>only numbers</b> as an input.
             Other inputs will generate an error message below the input field.
           </p>
-          <p>All of those are extremely customizable though the exposed props. Check the <a href="https://github.com/CeamKrier/react-editable-title#api">docs</a> for it!</p>
           <table className="pure-table" style={{ width: '100%' }}>
             <thead>
                 <tr>
@@ -105,6 +104,8 @@ const Showcase: React.FC = () => {
                 </tr>
             </tbody>
         </table>
+        <p>All of those are extremely customizable though the exposed props. Check the <a href="https://github.com/CeamKrier/react-editable-title#api">docs</a> for it!</p>
+
       </div>
       
     </React.Fragment>
