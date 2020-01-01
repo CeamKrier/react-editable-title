@@ -1,6 +1,14 @@
 import React, { useState, useCallback, useRef, useMemo, CSSProperties } from 'react'
 import '../src/css/index.css'
 
+/**
+ * Keyboard Event Key-codes
+ */
+enum Key {
+  Enter = 13,
+  ESC = 27
+}
+
 interface EditableProps {
   text: string;
   editButton?: boolean;
@@ -12,16 +20,15 @@ interface EditableProps {
   editButtonStyle?: CSSProperties;
   saveButtonStyle?: CSSProperties;
   cancelButtonStyle?: CSSProperties;
+  inputPattern?: string;
+  inputErrorMessage?: string;
+  inputErrorMessageStyle?: CSSProperties;
+  inputMinLength?: number;
+  inputMaxLength?: number;
   cb: (currentText: string) => any;
 }
 
-/**
- * Keyboard Event Key-codes
- */
-enum Key {
-  Enter = 13,
-  ESC = 27
-}
+
 
 const Editable: React.FC<EditableProps> = ({
   text,
@@ -34,9 +41,15 @@ const Editable: React.FC<EditableProps> = ({
   editButtonStyle,
   saveButtonStyle,
   cancelButtonStyle,
+  inputPattern,
+  inputErrorMessage = 'Input does not match the pattern',
+  inputErrorMessageStyle,
+  inputMinLength,
+  inputMaxLength,
   cb
 }) => {
   const [editing, setEditing] = useState(false)
+  const [popupVisibile, setPopupVisible] = useState(false)
   const [displayText, setDisplayText] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const displayTextRef = useRef<HTMLSpanElement>(null)
@@ -62,7 +75,10 @@ const Editable: React.FC<EditableProps> = ({
 
   const updateDisplayText = useCallback(
     () => {
-      setDisplayText(inputRef.current?.value || '*')
+        setDisplayText(inputRef.current!.value)
+        if (popupVisibile) {
+          setPopupVisible(false)
+        }
     },
     [],
   )
@@ -70,6 +86,7 @@ const Editable: React.FC<EditableProps> = ({
   const terminateEditing = useCallback(
     () => {
       setEditing(false)
+      setPopupVisible(false)
     },
     [],
   )
@@ -80,7 +97,6 @@ const Editable: React.FC<EditableProps> = ({
 
       if (stroke === Key.Enter && text !== inputRef.current?.value) {
         handleSaveText()
-        terminateEditing()
       } else if (stroke === Key.ESC) {
         terminateEditing()
       }
@@ -88,12 +104,27 @@ const Editable: React.FC<EditableProps> = ({
     [text],
   )
 
-  const handleSaveText = useCallback(
+  const saveText = useCallback(
     () => {
       terminateEditing()
-      if (inputRef.current) {
-        cb(inputRef.current.value)
-        inputRef.current.value = ''
+      cb(inputRef.current!.value)
+    },
+    [],
+  )
+
+  const handleSaveText = useCallback(
+    () => {
+      if (inputRef.current && inputRef.current.value.trim() !== '') {
+        if (inputPattern) {
+          if (inputRef.current.value.match(new RegExp(inputPattern))) {
+            saveText()
+          } else {
+            setPopupVisible(true)
+          }
+        } else {
+          saveText()
+        }
+        
       }
     },
     [],
@@ -119,12 +150,26 @@ const Editable: React.FC<EditableProps> = ({
                 `${seamlessInput ? 'seamlessInput' : 'customTitleInput'} 
                  ${editControlButtons ? '' : 'bendRightSide'}`
               }
-              style={editing ? {...inputStyle} : { display: 'none' }}
+              style={editing ? {...inputStyle, minWidth: `${placeholder.length * 8}px`} : { display: 'none' }}
               ref={inputRef} 
               placeholder={placeholder}
               value={displayText}
               onChange={updateDisplayText}
-              onKeyDown={handleKeyDown}/>
+              onKeyDown={handleKeyDown}
+              minLength={inputMinLength}
+              maxLength={inputMaxLength}
+              />
+            {
+              (inputPattern && popupVisibile) ? 
+              <div className='popover editable-title'>
+                <span 
+                  style={inputErrorMessageStyle}>
+                    {inputErrorMessage}
+                  </span>
+              </div>
+              :
+              undefined
+            }
             <span
               ref={displayTextRef}
               className='displayText' 
@@ -167,7 +212,7 @@ const Editable: React.FC<EditableProps> = ({
   
       </React.Fragment>
     )
-  }, [displayText, editing])
+  }, [displayText, editing, popupVisibile])
 }
 
 export default Editable

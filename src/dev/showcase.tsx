@@ -6,6 +6,7 @@ const Showcase: React.FC = () => {
 
   const [text, setText] = useState('Hellow')
   const [hondaModel, setHondaModel] = useState('Accord')
+  const [hondaYear, setHondaYear] = useState('2009')
 
   const handleTextUpdate = (current: string) => {
     setText(current)
@@ -13,6 +14,10 @@ const Showcase: React.FC = () => {
 
   const handleHondaModelUpdate = (current: string) => {
     setHondaModel(current)
+  }
+
+  const handleHondaYearUpdate = (current: string) => {
+    setHondaYear(current)
   }
 
   return (
@@ -40,7 +45,11 @@ const Showcase: React.FC = () => {
              won`t trigger, too.
           </p>
           <p>
-            Also, you can use the <b>seamless</b> styling of the component as illustrated below.
+            You can use the <b>seamless</b> styling of the component as illustrated below.
+          </p>
+          <p>
+            For the sake illustration, model names limited to accept <b>only letters</b>. Also, year can accept <b>only numbers</b> as an input.
+            Other inputs will generate an error message below the input field.
           </p>
           <table className="pure-table" style={{ width: '100%' }}>
             <thead>
@@ -60,11 +69,24 @@ const Showcase: React.FC = () => {
                       <Editable 
                         text={hondaModel} 
                         seamlessInput
-                        placeholder="Type here"
+                        placeholder="Type model here"
+                        inputErrorMessage='Only letters allowed'
+                        inputErrorMessageStyle={{color: 'red'}}
+                        inputPattern="^[A-Za-z]*$"
                         cb={handleHondaModelUpdate}
                       />
                     </td>
-                    <td>2009</td>
+                    <td>
+                    <Editable 
+                        text={`${hondaYear}`} 
+                        seamlessInput
+                        placeholder="Type year here"
+                        inputErrorMessage='Only numbers allowed'
+                        inputErrorMessageStyle={{color: 'blue'}}
+                        inputPattern="^[0-9]*$"
+                        cb={handleHondaYearUpdate}
+                      />
+                    </td>
                 </tr>
 
                 <tr>
@@ -82,6 +104,8 @@ const Showcase: React.FC = () => {
                 </tr>
             </tbody>
         </table>
+        <p>All of those are extremely customizable though the exposed props. Check the <a href="https://github.com/CeamKrier/react-editable-title#api">docs</a> for it!</p>
+
       </div>
       
     </React.Fragment>

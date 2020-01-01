@@ -207,10 +207,7 @@
 .displayText {
   position: relative;
     margin-right: 1em;
-    /* vertical-align: super; */
     font-family: sans-serif;
-    /* font-size: 14px; */
-    /* margin-left: .9em; */
     bottom: .1em;
     cursor: pointer;
 }
@@ -239,4 +236,14 @@
   outline: none;
   border: 0;
   width: inherit;
+}
+
+.popover.editable-title {
+  position: absolute;
+  margin-top: -0.15em;
+}
+
+.popover.editable-title > span {
+  font-size: 12px;
+  color: red;
 }

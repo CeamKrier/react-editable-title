@@ -11,6 +11,11 @@ interface EditableProps {
     editButtonStyle?: CSSProperties;
     saveButtonStyle?: CSSProperties;
     cancelButtonStyle?: CSSProperties;
+    inputPattern?: string;
+    inputErrorMessage?: string;
+    inputErrorMessageStyle?: CSSProperties;
+    inputMinLength?: number;
+    inputMaxLength?: number;
     cb: (currentText: string) => any;
 }
 declare const Editable: React.FC<EditableProps>;
