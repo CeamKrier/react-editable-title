@@ -12,6 +12,8 @@ interface EditableProps {
     saveButtonStyle?: CSSProperties;
     cancelButtonStyle?: CSSProperties;
     inputPattern?: string;
+    inputErrorMessage?: string;
+    inputErrorMessageStyle?: CSSProperties;
     inputMinLength?: number;
     inputMaxLength?: number;
     cb: (currentText: string) => any;

@@ -240,3 +240,13 @@
   border: 0;
   width: inherit;
 }
+
+.popover.editable-title {
+  position: absolute;
+  margin-top: 0em;
+}
+
+.popover.editable-title > span {
+  font-size: 12px;
+  color: red;
+}

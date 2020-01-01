@@ -21,6 +21,8 @@ interface EditableProps {
   saveButtonStyle?: CSSProperties;
   cancelButtonStyle?: CSSProperties;
   inputPattern?: string;
+  inputErrorMessage?: string;
+  inputErrorMessageStyle?: CSSProperties;
   inputMinLength?: number;
   inputMaxLength?: number;
   cb: (currentText: string) => any;
@@ -40,11 +42,14 @@ const Editable: React.FC<EditableProps> = ({
   saveButtonStyle,
   cancelButtonStyle,
   inputPattern,
+  inputErrorMessage = 'Input does not match the pattern',
+  inputErrorMessageStyle,
   inputMinLength,
   inputMaxLength,
   cb
 }) => {
   const [editing, setEditing] = useState(false)
+  const [popupVisibile, setPopupVisible] = useState(false)
   const [displayText, setDisplayText] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const displayTextRef = useRef<HTMLSpanElement>(null)
@@ -71,6 +76,9 @@ const Editable: React.FC<EditableProps> = ({
   const updateDisplayText = useCallback(
     () => {
         setDisplayText(inputRef.current?.value || '*')
+        if (popupVisibile) {
+          setPopupVisible(false)
+        }
     },
     [],
   )
@@ -78,6 +86,7 @@ const Editable: React.FC<EditableProps> = ({
   const terminateEditing = useCallback(
     () => {
       setEditing(false)
+      setPopupVisible(false)
     },
     [],
   )
@@ -112,6 +121,7 @@ const Editable: React.FC<EditableProps> = ({
             saveText()
             console.log('pattern has matched, input saved')
           } else {
+            setPopupVisible(true)
             console.log('pattern does not match with input')
           }
         } else {
@@ -153,6 +163,17 @@ const Editable: React.FC<EditableProps> = ({
               minLength={inputMinLength}
               maxLength={inputMaxLength}
               />
+            {
+              (inputPattern && popupVisibile) ? 
+              <div className='popover editable-title'>
+                <span 
+                  style={inputErrorMessageStyle}>
+                    {inputErrorMessage}
+                  </span>
+              </div>
+              :
+              undefined
+            }
             <span
               ref={displayTextRef}
               className='displayText' 
@@ -195,7 +216,7 @@ const Editable: React.FC<EditableProps> = ({
   
       </React.Fragment>
     )
-  }, [displayText, editing])
+  }, [displayText, editing, popupVisibile])
 }
 
 export default Editable

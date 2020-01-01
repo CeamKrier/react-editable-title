@@ -6,6 +6,7 @@ const Showcase: React.FC = () => {
 
   const [text, setText] = useState('Hellow')
   const [hondaModel, setHondaModel] = useState('Accord')
+  const [hondaYear, setHondaYear] = useState('2009')
 
   const handleTextUpdate = (current: string) => {
     setText(current)
@@ -13,6 +14,10 @@ const Showcase: React.FC = () => {
 
   const handleHondaModelUpdate = (current: string) => {
     setHondaModel(current)
+  }
+
+  const handleHondaYearUpdate = (current: string) => {
+    setHondaYear(current)
   }
 
   return (
@@ -28,9 +33,6 @@ const Showcase: React.FC = () => {
           editButton
           editControlButtons
           placeholder="Type here"
-          inputMaxLength={6}
-          inputMinLength={2}
-          inputPattern="[0-9]+"
           cb={handleTextUpdate}
           />
           <p />
@@ -67,7 +69,17 @@ const Showcase: React.FC = () => {
                         cb={handleHondaModelUpdate}
                       />
                     </td>
-                    <td>2009</td>
+                    <td>
+                    <Editable 
+                        text={`${hondaYear}`} 
+                        seamlessInput
+                        placeholder="Type here"
+                        inputErrorMessage='Only numbers'
+                        inputErrorMessageStyle={{color: 'blue'}}
+                        inputPattern="^[0-9]*$"
+                        cb={handleHondaYearUpdate}
+                      />
+                    </td>
                 </tr>
 
                 <tr>
