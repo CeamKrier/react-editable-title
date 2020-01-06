@@ -17,6 +17,8 @@ interface EditableProps {
     inputMinLength?: number;
     inputMaxLength?: number;
     cb: (currentText: string) => any;
+    onEditCancel?: Function;
+    onValidationFail?: Function;
 }
 declare const Editable: React.FC<EditableProps>;
 export default Editable;

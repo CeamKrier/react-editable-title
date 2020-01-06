@@ -8,6 +8,14 @@ const Showcase: React.FC = () => {
   const [hondaModel, setHondaModel] = useState('Accord')
   const [hondaYear, setHondaYear] = useState('2009')
 
+  const handleEditCancel = () => {
+    console.log('First editable title`s edit has been canceled')
+  }
+
+  const handleModelValidationFail = () => {
+    console.log('Model re-name validation has been failed')
+  }
+
   const handleTextUpdate = (current: string) => {
     setText(current)
   }
@@ -34,6 +42,7 @@ const Showcase: React.FC = () => {
           editControlButtons
           placeholder="Type here"
           cb={handleTextUpdate}
+          onEditCancel={handleEditCancel}
           />
           <p />
           <p>
@@ -74,6 +83,7 @@ const Showcase: React.FC = () => {
                         inputErrorMessageStyle={{color: 'red'}}
                         inputPattern="^[A-Za-z]*$"
                         cb={handleHondaModelUpdate}
+                        onValidationFail={handleModelValidationFail}
                       />
                     </td>
                     <td>
