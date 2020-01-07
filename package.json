@@ -8,8 +8,8 @@
     "dev": "webpack-dev-server --config ./webpack.config.js --inline --hot --port 2000",
     "prebuild": "rimraf lib",
     "build": "tsc -d",
-    "publish": "npm version minor --force -m \"chore: version bumped to %s\"",
-    "postpublish": "git push && npm publish"
+    "version:patch": "npm version patch --force -m \"chore: version bumped to %s\"",
+    "postversion": "git push && npm publish"
   },
   "repository": {
     "type": "git",
