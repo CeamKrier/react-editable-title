@@ -26,6 +26,8 @@ interface EditableProps {
   inputMinLength?: number;
   inputMaxLength?: number;
   cb: (currentText: string) => any;
+  onEditCancel?: Function;
+  onValidationFail?: Function;
 }
 
 
@@ -46,7 +48,9 @@ const Editable: React.FC<EditableProps> = ({
   inputErrorMessageStyle,
   inputMinLength,
   inputMaxLength,
-  cb
+  cb,
+  onEditCancel,
+  onValidationFail
 }) => {
   const [editing, setEditing] = useState(false)
   const [popupVisibile, setPopupVisible] = useState(false)
@@ -87,6 +91,7 @@ const Editable: React.FC<EditableProps> = ({
     () => {
       setEditing(false)
       setPopupVisible(false)
+      onEditCancel ? onEditCancel() : undefined
     },
     [],
   )
@@ -120,6 +125,7 @@ const Editable: React.FC<EditableProps> = ({
             saveText()
           } else {
             setPopupVisible(true)
+            onValidationFail ? onValidationFail() : undefined
           }
         } else {
           saveText()

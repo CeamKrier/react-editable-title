@@ -1,13 +1,15 @@
 {
   "name": "react-editable-title",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "An editable title implementation for the react.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.config.js --inline --hot --port 2000",
     "prebuild": "rimraf lib",
-    "build": "tsc -d"
+    "build": "tsc -d",
+    "version:patch": "npm version patch --force -m \"chore: version bumped to %s\"",
+    "postversion": "git push && npm publish"
   },
   "repository": {
     "type": "git",

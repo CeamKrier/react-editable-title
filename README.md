@@ -44,7 +44,9 @@ const App = () => {
 |--------------------------|-----------------|--------------------------------------------------------------------|----------|
 | `text`                   | `string`        | Text to be displayed                                               | **Yes**  |
 | `textStyle`              | `CSSProperties` | Custom text styling                                                | No       |
-| `cb`                     | `function`      | Callback function invoked when the text has edited                 | **Yes**  |
+| `cb`                     | `function`      | Invoked when the text has been edited                              | **Yes**  |
+| `onEditCancel`           | `function`      | Invoked when the edit has been canceled                            | No       |
+| `onValidationFail`       | `function`      | Invoked when the text hasn't matched the regex                     | No       |
 | `editButton`             | `boolean`       | Sets the visibility of the edit button. **Default** is `false`     | No       |
 | `editButtonStyle`        | `CSSProperties` | Custom edit button styling                                         | No       |
 | `editControlButtons`     | `boolean`       | Sets the visibility of the control buttons. **Default** is `false` | No       |
