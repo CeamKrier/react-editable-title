@@ -164,6 +164,7 @@ const Editable: React.FC<EditableProps> = ({
               onKeyDown={handleKeyDown}
               minLength={inputMinLength}
               maxLength={inputMaxLength}
+              onBlur={handleSaveText}
               />
             {
               (inputPattern && popupVisibile) ? 
