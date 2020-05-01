@@ -13,8 +13,9 @@ interface EditableProps {
   text: string;
   editButton?: boolean;
   editControlButtons?: boolean;
-  placeholder?: string;
   seamlessInput?: boolean;
+  saveOnBlur?: boolean;
+  placeholder?: string;
   textStyle?: CSSProperties;
   inputStyle?: CSSProperties;
   editButtonStyle?: CSSProperties;
@@ -36,8 +37,9 @@ const Editable: React.FC<EditableProps> = ({
   text,
   editButton = false,
   editControlButtons = false,
-  placeholder = 'Type Here',
   seamlessInput = false,
+  saveOnBlur = true,
+  placeholder = 'Type Here',
   textStyle,
   inputStyle,
   editButtonStyle,
@@ -164,7 +166,7 @@ const Editable: React.FC<EditableProps> = ({
               onKeyDown={handleKeyDown}
               minLength={inputMinLength}
               maxLength={inputMaxLength}
-              onBlur={handleSaveText}
+              onBlur={saveOnBlur ? handleSaveText : undefined}
               />
             {
               (inputPattern && popupVisibile) ? 

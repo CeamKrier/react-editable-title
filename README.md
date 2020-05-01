@@ -53,6 +53,7 @@ const App = () => {
 | `saveButtonStyle`        | `CSSProperties` | Custom save button styling                                         | No       |
 | `cancelButtonStyle`      | `CSSProperties` | Custom cancel button styling                                       | No       |
 | `placeholder`            | `string`        | Placeholder text of the input element                              | No       |
+| `saveOnBlur`             | `boolean`       | Attempts to save text input on unfocus. **Default** is `true`      | No       |
 | `seamlessInput`          | `boolean`       | Presents text-editor alike experience. **Default** is `false`      | No       |
 | `inputStyle`             | `CSSProperties` | Custom input styling                                               | No       |
 | `inputPattern`           | `string`        | Regex pattern of desired input                                     | No       |

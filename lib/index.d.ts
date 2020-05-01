@@ -4,8 +4,9 @@ interface EditableProps {
     text: string;
     editButton?: boolean;
     editControlButtons?: boolean;
-    placeholder?: string;
     seamlessInput?: boolean;
+    saveOnBlur?: boolean;
+    placeholder?: string;
     textStyle?: CSSProperties;
     inputStyle?: CSSProperties;
     editButtonStyle?: CSSProperties;
