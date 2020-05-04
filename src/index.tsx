@@ -1,5 +1,8 @@
 import React, { useState, useCallback, useRef, useMemo, CSSProperties } from 'react'
-import '../src/css/index.css'
+
+import cn from 'classnames/bind';
+import styles from '../src/css/index.module.css';
+const cx = cn.bind(styles);
 
 /**
  * Keyboard Event Key-codes
@@ -150,13 +153,13 @@ const Editable: React.FC<EditableProps> = ({
       <React.Fragment>
   
           <div 
-            className='title-wrapper'
+            className={cx(styles['title-wrapper'])}
             style={seamlessInput ? calculateDimensions : undefined}>
             <input 
               className=
               {
-                `${seamlessInput ? 'seamlessInput' : 'customTitleInput'} 
-                 ${editControlButtons ? '' : 'bendRightSide'}`
+                `${seamlessInput ? cx(styles['seamlessInput']) : cx(styles['customTitleInput'])} 
+                 ${editControlButtons ? '' : cx(styles['bendRightSide'])}`
               }
               style={editing ? {...inputStyle, minWidth: `${placeholder.length * 8}px`} : { display: 'none' }}
               ref={inputRef} 
@@ -170,7 +173,7 @@ const Editable: React.FC<EditableProps> = ({
               />
             {
               (inputPattern && popupVisibile) ? 
-              <div className='popover editable-title'>
+              <div className={`${cx(styles['popover'])} ${cx(styles['editable-title'])}`}>
                 <span 
                   style={inputErrorMessageStyle}>
                     {inputErrorMessage}
@@ -181,7 +184,7 @@ const Editable: React.FC<EditableProps> = ({
             }
             <span
               ref={displayTextRef}
-              className='displayText' 
+              className={cx(styles['displayText'])} 
               style={!editing ? {...textStyle} : { display: 'none' }} 
               onClick={handleClickOnText}>
                 {text}
@@ -189,10 +192,10 @@ const Editable: React.FC<EditableProps> = ({
             {
               editButton ? 
                 <button
-                  className={`mainButton edit ${editButton ? 'showControl' : 'hideControl'}`}
+                  className={`${cx(styles['mainButton'])} ${cx(styles['edit'])} ${editButton ? cx(styles['showControl']) : cx(styles['hideControl'])}`}
                   style={!editing ? {...editButtonStyle} : { display: 'none' }}
                   onClick={handleClickOnText}>
-                    <i className="gg-pen" />
+                    <i className={cx(styles['gg-pen'])} />
                 </button>
                 :
                 undefined
@@ -201,17 +204,17 @@ const Editable: React.FC<EditableProps> = ({
               editControlButtons ? 
                 <React.Fragment>
                   <button
-                    className={`mainButton save ${editControlButtons ? 'showControl' : 'hideControl'}`} 
+                    className={`${cx(styles['mainButton'])} ${cx(styles['save'])} ${editControlButtons ? cx(styles['showControl']) : cx(styles['hideControl'])}`} 
                     style={editing ? {...saveButtonStyle} : { display: 'none' }}
                     onClick={handleSaveText}
                     disabled={text === displayText}>
-                      <i className="gg-check" />
+                      <i className={cx(styles['gg-check'])} />
                   </button>
                   <button
-                    className={`mainButton cancel ${editControlButtons ? 'showControl' : 'hideControl'}`} 
+                    className={`${cx(styles['mainButton'])} ${cx(styles['cancel'])} ${editControlButtons ? cx(styles['showControl']): cx(styles['hideControl'])}`} 
                     style={editing ? {...cancelButtonStyle} : { display: 'none' }}
                     onClick={terminateEditing}>
-                      <i className="gg-close" />
+                      <i className={cx(styles['gg-close'])} />
                   </button>
                 </React.Fragment>
                 :

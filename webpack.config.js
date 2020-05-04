@@ -1,31 +1,40 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/dev/showcase.tsx',
   mode: 'development',
+  entry: {
+    showcase: './src/dev/showcase.tsx'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    filename: '[name].bundle.js',
+    publicPath: '/',
   },
-  devtool: 'inline-source-map',
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-modules-typescript-loader',
+          {
+            loader: 'css-loader',
+            options: { modules: true }
+          }
+        ],
+      },
       {
         test: /\.tsx$/,
         loader: 'ts-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
       }
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.js']
+    extensions: ['.tsx', '.js', '.css']
   },
+  devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'src', 'dev')
+      contentBase: path.resolve(__dirname, 'src', 'dev')
   }
 }
