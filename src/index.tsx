@@ -1,13 +1,6 @@
-import React, {
-	useState,
-	useCallback,
-	useRef,
-	useMemo,
-} from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai';
-import {EditableProps, Key} from './types'
-import '../src/css/index.css';
-
+import { EditableProps, Key } from './types';
 
 
 const Editable: React.FC<EditableProps> = ({
@@ -110,16 +103,27 @@ const Editable: React.FC<EditableProps> = ({
 		return (
 			<React.Fragment>
 				<div
-					className='title-wrapper'
-					style={{ ...(seamlessInput && calculateDimensions) }}>
+					className='editable-title-wrapper'
+					style={{
+						...styles.title_wrapper,
+						...(seamlessInput && calculateDimensions),
+					}}>
 					<input
-						className={`${seamlessInput ? 'seamlessInput' : 'customTitleInput'} 
-                 ${editControlButtons ? '' : 'bendRightSide'}`}
-						style={
-							editing
-								? { ...inputStyle, minWidth: `${placeholder.length * 8}px` }
-								: { display: 'none' }
-						}
+						style={{
+							...(editing
+								? {
+										...inputStyle,
+										minWidth: `${placeholder.length * 8}px`,
+										...(seamlessInput
+											? { ...styles.seamlessInput }
+											: {
+													...styles.customTitleInput,
+													boxSizing: 'border-box',
+													position: 'relative',
+											  }),
+								  }
+								: { display: 'none' }),
+						}}
 						ref={inputRef}
 						placeholder={placeholder}
 						value={displayText}
@@ -130,52 +134,151 @@ const Editable: React.FC<EditableProps> = ({
 						onBlur={saveOnBlur ? handleSaveText : undefined}
 					/>
 					{inputPattern && popupVisibile ? (
-						<div className='popover editable-title'>
+						<div
+							style={{
+								...styles.editable_title_popover,
+								position: 'absolute',
+							}}>
 							<span style={inputErrorMessageStyle}>{inputErrorMessage}</span>
 						</div>
 					) : undefined}
 					<span
 						ref={displayTextRef}
 						className='displayText'
-						style={!editing ? { ...textStyle } : { display: 'none' }}
+						style={!editing ? { ...textStyle, marginRight: '1em' } : { display: 'none' }}
 						onClick={handleClickOnText}>
 						{text}
 					</span>
-					{editButton ? (
+					{editButton && (
 						<button
-							className={`mainButton edit ${
-								editButton ? 'showControl' : 'hideControl'
-							}`}
-							style={!editing ? { ...editButtonStyle } : { display: 'none' }}
+							style={{
+								...(!editing
+									? {
+											...editButtonStyle,
+											...styles.mainButton,
+											...styles.edit,
+										
+									  }
+									: { display: 'none' }),
+							}}
 							onClick={handleClickOnText}>
-							<AiOutlineEdit style={{ width: '1.2em', height: '1.2em', marginTop: '-50%' }} />
+							<AiOutlineEdit
+								style={{ width: '1.2em', height: '1.2em', marginTop: '-50%' }}
+							/>
 						</button>
-					) : undefined}
-					{editControlButtons ? (
+					)}
+					{editControlButtons && (
 						<React.Fragment>
 							<button
-								className={`mainButton save ${
-									editControlButtons ? 'showControl' : 'hideControl'
-								}`}
-								style={editing ? { ...saveButtonStyle } : { display: 'none' }}
+                style={{
+                  ...(editing
+                    ? {
+                        ...saveButtonStyle,
+                        ...styles.mainButton,
+                        ...styles.save,
+                        position: 'relative'
+                      }
+                    : { display: 'none' }),
+                }}
 								onClick={handleSaveText}
 								disabled={text === displayText}>
-								<AiOutlineCheck style={{ marginTop: '50%' }}/>
+								<AiOutlineCheck style={{marginTop: '50%'}} />
 							</button>
 							<button
-								className={`mainButton cancel ${
-									editControlButtons ? 'showControl' : 'hideControl'
-								}`}
-								style={editing ? { ...cancelButtonStyle } : { display: 'none' }}
+                style={{
+                  ...(editing
+                    ? {
+                        ...cancelButtonStyle,
+                        ...styles.mainButton,
+                        ...styles.cancel,
+                        
+                      }
+                    : { display: 'none' }),
+                }}
 								onClick={terminateEditing}>
-								<AiOutlineClose style={{ marginTop: '50%' }} />
+								<AiOutlineClose style={{marginTop: '50%'}} />
 							</button>
 						</React.Fragment>
-					) : undefined}
+					)}
 				</div>
 			</React.Fragment>
 		);
 	}, [displayText, editing, popupVisibile]);
+};
+
+const styles = {
+	customTitleInput: {
+		boxSizing: 'border-box',
+		display: 'inline-block',
+		height: '32px',
+		padding: '4px 11px',
+		color: 'rgba(0,0,0,0.65)',
+		fontSize: '14px',
+		fontFamily: 'sans-serif',
+		lineHeight: '1.5',
+		backgroundColor: '#fff',
+		border: '1px solid #d9d9d9',
+		borderRadius: '4px',
+		borderTopRightRadius: 'unset',
+		borderBottomRightRadius: 'unset',
+	},
+	title_wrapper: {
+		display: '-webkit-inline-box',
+	},
+	mainButton: {
+		cursor: 'pointer',
+		display: 'inline-block',
+		minHeight: '1em',
+		outline: '0',
+		border: 'none',
+		background: '#e0e1e2 none',
+		color: 'rgba(0,0,0,.6)',
+		margin: '0 .25em 0 0',
+		padding: '.0em 1em .78571429em',
+		borderRadius: '.28571429rem',
+		verticalAlign: 'bottom',
+    maxHeight: '32px',
+    "&:hover": {
+      background: 'red'
+    }
+	},
+	edit: {
+		padding: '.78571429em',
+	},
+	save: {
+		marginLeft: '-.1em',
+		borderRadius: 'unset',
+	},
+	cancel: {
+		marginLeft: '-0.3em',
+		borderTopLeftRadius: 'unset',
+		borderBottomLeftRadius: 'unset',
+	},
+	displayText: {
+		position: 'relative',
+		marginRight: '1em',
+		fontFamily: 'sans-serif',
+		bottom: '.1em',
+		cursor: 'pointer',
+	},
+	mainButton_save_disabled: {
+		background: '#a4a5a7',
+		cursor: 'not-allowed',
+		color: '#ededed',
+		transition: 'all .3s',
+	},
+	bendRightSide: {
+		borderTopRightRadius: '4px',
+		borderBottomRightRadius: '4px',
+	},
+	seamlessInput: {
+		outline: 'none',
+		border: '0',
+		width: 'inherit',
+	},
+	editable_title_popover: {
+		marginTop: '-0.15em',
+	},
 };
 
 export default Editable;

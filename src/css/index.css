@@ -92,7 +92,7 @@
   width: inherit;
 }
 
-.popover.editable-title {
+.editable-title-popover {
   position: absolute;
   margin-top: -0.15em;
 }

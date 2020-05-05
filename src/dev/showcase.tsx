@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import Editable from '../../lib/index'
+import Editable from '../../src/index'
 
 const Showcase: React.FC = () => {
 
@@ -36,7 +36,8 @@ const Showcase: React.FC = () => {
         left: '50%',
         transform: 'translate(-50%, -50%)'
       }}>
-        <Editable 
+        <Editable
+        saveOnBlur={false}
           text={text} 
           editButton
           editControlButtons
