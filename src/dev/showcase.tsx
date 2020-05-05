@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import Editable from '../../src/index'
+import Editable from '../../lib/index'
 
 const Showcase: React.FC = () => {
 
