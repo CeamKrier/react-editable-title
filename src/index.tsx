@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai';
+import { ControlButton, CustomTitle, EditableTitlePopover, EditableWrapper } from './styledComponents'
 import { EditableProps, Key } from './types';
-
 
 const Editable: React.FC<EditableProps> = ({
 	text,
@@ -102,25 +102,17 @@ const Editable: React.FC<EditableProps> = ({
 	return useMemo(() => {
 		return (
 			<React.Fragment>
-				<div
+				<EditableWrapper
 					className='editable-title-wrapper'
-					style={{
-						...styles.title_wrapper,
-						...(seamlessInput && calculateDimensions),
-					}}>
-					<input
+					style={seamlessInput && calculateDimensions || undefined}>
+					<CustomTitle
 						style={{
 							...(editing
 								? {
 										...inputStyle,
 										minWidth: `${placeholder.length * 8}px`,
 										...(seamlessInput
-											? { ...styles.seamlessInput }
-											: {
-													...styles.customTitleInput,
-													boxSizing: 'border-box',
-													position: 'relative',
-											  }),
+											&& styles.seamlessInput),
 								  }
 								: { display: 'none' }),
 						}}
@@ -134,13 +126,9 @@ const Editable: React.FC<EditableProps> = ({
 						onBlur={saveOnBlur && handleSaveText || undefined}
 					/>
 					{inputPattern && popupVisibile && editing && (
-						<div
-							style={{
-								...styles.editable_title_popover,
-								position: 'absolute',
-							}}>
+						<EditableTitlePopover>
 							<span style={inputErrorMessageStyle}>{inputErrorMessage}</span>
-						</div>
+						</EditableTitlePopover>
 					)}
 					<span
 						ref={displayTextRef}
@@ -150,12 +138,11 @@ const Editable: React.FC<EditableProps> = ({
 						{text}
 					</span>
 					{editButton && (
-						<button
+						<ControlButton
 							style={{
 								...(!editing
 									? {
 											...editButtonStyle,
-											...styles.mainButton,
 											...styles.edit,
 									  }
 									: { display: 'none' }),
@@ -164,16 +151,15 @@ const Editable: React.FC<EditableProps> = ({
 							<AiOutlineEdit
 								style={{ width: '1.2em', height: '1.2em', marginTop: '-50%' }}
 							/>
-						</button>
+						</ControlButton>
 					)}
 					{editControlButtons && (
 						<React.Fragment>
-							<button
+							<ControlButton
                 style={{
                   ...(editing
                     ? {
                         ...saveButtonStyle,
-                        ...styles.mainButton,
                         ...(text === displayText && styles.mainButton_save_disabled),
                         ...styles.save,
                         position: 'relative'
@@ -183,64 +169,28 @@ const Editable: React.FC<EditableProps> = ({
 								onClick={handleSaveText}
                 disabled={text === displayText}>
 								<AiOutlineCheck style={{marginTop: '50%'}} />
-							</button>
-							<button
+							</ControlButton>
+							<ControlButton
                 style={{
                   ...(editing
                     ? {
                         ...cancelButtonStyle,
-                        ...styles.mainButton,
                         ...styles.cancel,
                       }
                     : { display: 'none' }),
                 }}
 								onClick={terminateEditing}>
 								<AiOutlineClose style={{marginTop: '50%'}} />
-							</button>
+							</ControlButton>
 						</React.Fragment>
 					)}
-				</div>
+				</EditableWrapper>
 			</React.Fragment>
 		);
 	}, [displayText, editing, popupVisibile]);
 };
 
 const styles = {
-	customTitleInput: {
-		boxSizing: 'border-box',
-		display: 'inline-block',
-		height: '32px',
-		padding: '4px 11px',
-		color: 'rgba(0,0,0,0.65)',
-		fontSize: '14px',
-		fontFamily: 'sans-serif',
-		lineHeight: '1.5',
-		backgroundColor: '#fff',
-		border: '1px solid #d9d9d9',
-		borderRadius: '4px',
-		borderTopRightRadius: 'unset',
-		borderBottomRightRadius: 'unset',
-	},
-	title_wrapper: {
-		display: '-webkit-inline-box',
-	},
-	mainButton: {
-		cursor: 'pointer',
-		display: 'inline-block',
-		minHeight: '1em',
-		outline: '0',
-		border: 'none',
-		background: '#e0e1e2 none',
-		color: 'rgba(0,0,0,.6)',
-		margin: '0 .25em 0 0',
-		padding: '.0em 1em .78571429em',
-		borderRadius: '.28571429rem',
-		verticalAlign: 'bottom',
-    maxHeight: '32px',
-    "&:hover": {
-      background: 'red'
-    }
-	},
 	edit: {
 		padding: '.78571429em',
 	},
