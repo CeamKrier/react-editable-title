@@ -131,9 +131,9 @@ const Editable: React.FC<EditableProps> = ({
 						onKeyDown={handleKeyDown}
 						minLength={inputMinLength}
 						maxLength={inputMaxLength}
-						onBlur={saveOnBlur ? handleSaveText : undefined}
+						onBlur={saveOnBlur && handleSaveText || undefined}
 					/>
-					{inputPattern && popupVisibile ? (
+					{inputPattern && popupVisibile && editing && (
 						<div
 							style={{
 								...styles.editable_title_popover,
@@ -141,7 +141,7 @@ const Editable: React.FC<EditableProps> = ({
 							}}>
 							<span style={inputErrorMessageStyle}>{inputErrorMessage}</span>
 						</div>
-					) : undefined}
+					)}
 					<span
 						ref={displayTextRef}
 						className='displayText'
@@ -157,7 +157,6 @@ const Editable: React.FC<EditableProps> = ({
 											...editButtonStyle,
 											...styles.mainButton,
 											...styles.edit,
-										
 									  }
 									: { display: 'none' }),
 							}}
@@ -175,13 +174,14 @@ const Editable: React.FC<EditableProps> = ({
                     ? {
                         ...saveButtonStyle,
                         ...styles.mainButton,
+                        ...(text === displayText && styles.mainButton_save_disabled),
                         ...styles.save,
                         position: 'relative'
                       }
                     : { display: 'none' }),
                 }}
 								onClick={handleSaveText}
-								disabled={text === displayText}>
+                disabled={text === displayText}>
 								<AiOutlineCheck style={{marginTop: '50%'}} />
 							</button>
 							<button
@@ -191,7 +191,6 @@ const Editable: React.FC<EditableProps> = ({
                         ...cancelButtonStyle,
                         ...styles.mainButton,
                         ...styles.cancel,
-                        
                       }
                     : { display: 'none' }),
                 }}
