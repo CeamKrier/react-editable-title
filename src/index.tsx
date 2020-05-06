@@ -1,14 +1,7 @@
-import React, {
-	useState,
-	useCallback,
-	useRef,
-	useMemo,
-} from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai';
-import {EditableProps, Key} from './types'
-import '../src/css/index.css';
-
-
+import { ControlButton, CustomTitle, EditableTitlePopover, EditableWrapper } from './styledComponents'
+import { EditableProps, Key } from './types';
 
 const Editable: React.FC<EditableProps> = ({
 	text,
@@ -109,17 +102,20 @@ const Editable: React.FC<EditableProps> = ({
 	return useMemo(() => {
 		return (
 			<React.Fragment>
-				<div
-					className='title-wrapper'
-					style={{ ...(seamlessInput && calculateDimensions) }}>
-					<input
-						className={`${seamlessInput ? 'seamlessInput' : 'customTitleInput'} 
-                 ${editControlButtons ? '' : 'bendRightSide'}`}
-						style={
-							editing
-								? { ...inputStyle, minWidth: `${placeholder.length * 8}px` }
-								: { display: 'none' }
-						}
+				<EditableWrapper
+					className='editable-title-wrapper'
+					style={seamlessInput && calculateDimensions || undefined}>
+					<CustomTitle
+						style={{
+							...(editing
+								? {
+										...inputStyle,
+										minWidth: `${placeholder.length * 8}px`,
+										...(seamlessInput
+											&& styles.seamlessInput),
+								  }
+								: { display: 'none' }),
+						}}
 						ref={inputRef}
 						placeholder={placeholder}
 						value={displayText}
@@ -127,55 +123,111 @@ const Editable: React.FC<EditableProps> = ({
 						onKeyDown={handleKeyDown}
 						minLength={inputMinLength}
 						maxLength={inputMaxLength}
-						onBlur={saveOnBlur ? handleSaveText : undefined}
+						onBlur={saveOnBlur && handleSaveText || undefined}
 					/>
-					{inputPattern && popupVisibile ? (
-						<div className='popover editable-title'>
+					{inputPattern && popupVisibile && editing && (
+						<EditableTitlePopover>
 							<span style={inputErrorMessageStyle}>{inputErrorMessage}</span>
-						</div>
-					) : undefined}
+						</EditableTitlePopover>
+					)}
 					<span
 						ref={displayTextRef}
 						className='displayText'
-						style={!editing ? { ...textStyle } : { display: 'none' }}
+						style={!editing ? { ...textStyle, marginRight: '1em' } : { display: 'none' }}
 						onClick={handleClickOnText}>
 						{text}
 					</span>
-					{editButton ? (
-						<button
-							className={`mainButton edit ${
-								editButton ? 'showControl' : 'hideControl'
-							}`}
-							style={!editing ? { ...editButtonStyle } : { display: 'none' }}
+					{editButton && (
+						<ControlButton
+							style={{
+								...(!editing
+									? {
+											...editButtonStyle,
+											...styles.edit,
+									  }
+									: { display: 'none' }),
+							}}
 							onClick={handleClickOnText}>
-							<AiOutlineEdit style={{ width: '1.2em', height: '1.2em', marginTop: '-50%' }} />
-						</button>
-					) : undefined}
-					{editControlButtons ? (
+							<AiOutlineEdit
+								style={{ width: '1.2em', height: '1.2em', marginTop: '-50%' }}
+							/>
+						</ControlButton>
+					)}
+					{editControlButtons && (
 						<React.Fragment>
-							<button
-								className={`mainButton save ${
-									editControlButtons ? 'showControl' : 'hideControl'
-								}`}
-								style={editing ? { ...saveButtonStyle } : { display: 'none' }}
+							<ControlButton
+                style={{
+                  ...(editing
+                    ? {
+                        ...saveButtonStyle,
+                        ...(text === displayText && styles.mainButton_save_disabled),
+                        ...styles.save,
+                        position: 'relative'
+                      }
+                    : { display: 'none' }),
+                }}
 								onClick={handleSaveText}
-								disabled={text === displayText}>
-								<AiOutlineCheck style={{ marginTop: '50%' }}/>
-							</button>
-							<button
-								className={`mainButton cancel ${
-									editControlButtons ? 'showControl' : 'hideControl'
-								}`}
-								style={editing ? { ...cancelButtonStyle } : { display: 'none' }}
+                disabled={text === displayText}>
+								<AiOutlineCheck style={{marginTop: '50%'}} />
+							</ControlButton>
+							<ControlButton
+                style={{
+                  ...(editing
+                    ? {
+                        ...cancelButtonStyle,
+                        ...styles.cancel,
+                      }
+                    : { display: 'none' }),
+                }}
 								onClick={terminateEditing}>
-								<AiOutlineClose style={{ marginTop: '50%' }} />
-							</button>
+								<AiOutlineClose style={{marginTop: '50%'}} />
+							</ControlButton>
 						</React.Fragment>
-					) : undefined}
-				</div>
+					)}
+				</EditableWrapper>
 			</React.Fragment>
 		);
 	}, [displayText, editing, popupVisibile]);
+};
+
+const styles = {
+	edit: {
+		padding: '.78571429em',
+	},
+	save: {
+		marginLeft: '-.1em',
+		borderRadius: 'unset',
+	},
+	cancel: {
+		marginLeft: '-0.3em',
+		borderTopLeftRadius: 'unset',
+		borderBottomLeftRadius: 'unset',
+	},
+	displayText: {
+		position: 'relative',
+		marginRight: '1em',
+		fontFamily: 'sans-serif',
+		bottom: '.1em',
+		cursor: 'pointer',
+	},
+	mainButton_save_disabled: {
+		background: '#a4a5a7',
+		cursor: 'not-allowed',
+		color: '#ededed',
+		transition: 'all .3s',
+	},
+	bendRightSide: {
+		borderTopRightRadius: '4px',
+		borderBottomRightRadius: '4px',
+	},
+	seamlessInput: {
+		outline: 'none',
+		border: '0',
+		width: 'inherit',
+	},
+	editable_title_popover: {
+		marginTop: '-0.15em',
+	},
 };
 
 export default Editable;

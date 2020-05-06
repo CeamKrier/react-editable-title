@@ -36,7 +36,8 @@ const Showcase: React.FC = () => {
         left: '50%',
         transform: 'translate(-50%, -50%)'
       }}>
-        <Editable 
+        <Editable
+        saveOnBlur={false}
           text={text} 
           editButton
           editControlButtons
