@@ -149,7 +149,7 @@ const Editable: React.FC<EditableProps> = ({
 							}}
 							onClick={handleClickOnText}>
 							<AiOutlineEdit
-								style={{ width: '1.2em', height: '1.2em', marginTop: '-50%' }}
+								style={{ width: '1.25em', height: '1.25em', marginTop: '-50%' }}
 							/>
 						</ControlButton>
 					)}
