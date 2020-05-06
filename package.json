@@ -1,51 +1,52 @@
 {
-  "name": "react-editable-title",
-  "version": "1.2.4",
-  "description": "An editable title implementation for the react.",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "scripts": {
-    "dev": "webpack-dev-server --config ./webpack.config.js --inline --hot --port 2000",
-    "prebuild": "rimraf lib",
-    "build": "tsc",
-    "version:up": "npm version --force -m \"chore: version bumped to %s\"",
-    "postversion": "git push && npm publish"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CeamKrier/react-editable-title.git"
-  },
-  "keywords": [
-    "react",
-    "editable title",
-    "editable text",
-    "editable data",
-    "editable content",
-    "editable table",
-    "customizable",
-    "validation",
-    "cross framework"
-  ],
-  "author": "Emre Çakır",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/CeamKrier/react-editable-title/issues"
-  },
-  "homepage": "https://github.com/CeamKrier/react-editable-title#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
-    "@types/styled-components": "^5.1.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-icons": "^3.10.0",
-    "rimraf": "^3.0.0",
-    "styled-components": "^5.1.0",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.7.4",
-    "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
-  }
+	"name": "react-editable-title",
+	"version": "1.2.5",
+	"description": "An editable title implementation for the react.",
+	"main": "./lib/index.js",
+	"types": "./lib/index.d.ts",
+	"scripts": {
+		"dev": "webpack-dev-server --config ./webpack.config.js --inline --hot --port 2000",
+		"prebuild": "rimraf lib",
+		"build": "tsc",
+		"version:up": "npm version --force -m \"chore: version bumped to %s\"",
+		"postversion": "git push && npm publish"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CeamKrier/react-editable-title.git"
+	},
+	"keywords": [
+		"react",
+		"editable title",
+		"editable text",
+		"editable data",
+		"editable content",
+		"editable table",
+		"customizable",
+		"validation",
+		"cross framework"
+	],
+	"author": "Emre Çakır",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/CeamKrier/react-editable-title/issues"
+	},
+	"homepage": "https://github.com/CeamKrier/react-editable-title#readme",
+	"dependencies": {
+		"react-icons": "^3.10.0",
+		"styled-components": "^5.1.0"
+	},
+	"devDependencies": {
+		"@types/react": "^16.9.17",
+		"@types/react-dom": "^16.9.4",
+		"@types/styled-components": "^5.1.0",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"rimraf": "^3.0.0",
+		"ts-loader": "^6.2.1",
+		"typescript": "^3.7.4",
+		"webpack": "^4.41.4",
+		"webpack-cli": "^3.3.10",
+		"webpack-dev-server": "^3.10.1"
+	}
 }
