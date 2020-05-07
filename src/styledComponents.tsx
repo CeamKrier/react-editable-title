@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const ControlButton = styled.button`
 	cursor: pointer;
 	display: inline-block;
+	line-height: 1em;
 	min-height: 1em;
 	outline: 0;
 	border: none;
