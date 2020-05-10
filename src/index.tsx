@@ -93,9 +93,11 @@ const Editable: React.FC<EditableProps> = ({
 	}, []);
 
 	const calculateDimensions = useMemo(() => {
+		const spanHeight = displayTextRef.current?.offsetHeight!
+		const spanWidth = displayTextRef.current?.offsetWidth!
 		return {
-			width: displayTextRef.current?.offsetWidth,
-			height: displayTextRef.current?.offsetHeight,
+			width: spanWidth > 0 ? spanWidth * 1.3 : 'inherit',
+			height: spanHeight > 0 ? spanHeight : 'inherit',
 		};
 	}, [editing]);
 
@@ -103,16 +105,17 @@ const Editable: React.FC<EditableProps> = ({
 		return (
 			<React.Fragment>
 				<EditableWrapper
-					className='editable-title-wrapper'
-					style={seamlessInput && calculateDimensions || undefined}>
+					className='editable-title-wrapper'>
 					<CustomTitle
 						style={{
 							...(editing
 								? {
 										...inputStyle,
 										minWidth: `${placeholder.length * 8}px`,
+										padding: 'unset',
 										...(seamlessInput
 											&& styles.seamlessInput),
+										...(seamlessInput && calculateDimensions)
 								  }
 								: { display: 'none' }),
 						}}
@@ -223,7 +226,7 @@ const styles = {
 	seamlessInput: {
 		outline: 'none',
 		border: '0',
-		width: 'inherit',
+		minWidth: 'unset'
 	},
 	editable_title_popover: {
 		marginTop: '-0.15em',
