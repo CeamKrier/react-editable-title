@@ -37,14 +37,14 @@ const Showcase: React.FC = () => {
         transform: 'translate(-50%, -50%)'
       }}>
         <Editable
-        saveOnBlur={false}
           text={text} 
+          saveOnBlur={false}
           editButton
           editControlButtons
           placeholder="Type here"
           cb={handleTextUpdate}
           onEditCancel={handleEditCancel}
-          />
+          />        
           <p />
           <p>
             You can control component with the buttons and also with <b>'Esc'</b>{" "}
