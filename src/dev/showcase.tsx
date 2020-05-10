@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import Editable from '../../src/index'
+import Editable from '../../lib/index'
 
 const Showcase: React.FC = () => {
 
   const [text, setText] = useState('Hellow')
-  const [teext, setTeext] = useState('buoo')
   const [hondaModel, setHondaModel] = useState('Accord')
   const [hondaYear, setHondaYear] = useState('2009')
 
@@ -39,22 +38,13 @@ const Showcase: React.FC = () => {
       }}>
         <Editable
           text={text} 
-          seamlessInput
           saveOnBlur={false}
+          editButton
+          editControlButtons
           placeholder="Type here"
           cb={handleTextUpdate}
           onEditCancel={handleEditCancel}
-          />
-          <Editable
-          text={teext}
-          seamlessInput
-          saveOnBlur={false}
-          
-          placeholder="Type here"
-          cb={(up) => setTeext(up)}
-          onEditCancel={handleEditCancel}
-          />
-          
+          />        
           <p />
           <p>
             You can control component with the buttons and also with <b>'Esc'</b>{" "}
@@ -88,7 +78,6 @@ const Showcase: React.FC = () => {
                     <td>
                       <Editable 
                         text={hondaModel} 
-                        saveOnBlur={false}
                         seamlessInput
                         placeholder="Type model here"
                         inputErrorMessage='Only letters allowed'

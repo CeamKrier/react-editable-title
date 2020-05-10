@@ -136,7 +136,7 @@ const Editable: React.FC<EditableProps> = ({
 					<span
 						ref={displayTextRef}
 						className='displayText'
-						style={!editing ? { ...textStyle, marginRight: '1em' } : { display: 'none' }}
+						style={!editing ? { ...textStyle, ...styles.displayText } : { display: 'none' }}
 						onClick={handleClickOnText}>
 						{text}
 					</span>
@@ -207,11 +207,10 @@ const styles = {
 		borderBottomLeftRadius: 'unset',
 	},
 	displayText: {
-		position: 'relative',
 		marginRight: '1em',
-		fontFamily: 'sans-serif',
-		bottom: '.1em',
 		cursor: 'pointer',
+		display: 'flex',
+		alignItems: 'center'
 	},
 	mainButton_save_disabled: {
 		background: '#a4a5a7',
@@ -231,6 +230,9 @@ const styles = {
 	editable_title_popover: {
 		marginTop: '-0.15em',
 	},
+	spanText: {
+
+	}
 };
 
 export default Editable;
