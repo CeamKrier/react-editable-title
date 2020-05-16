@@ -1,6 +1,11 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai';
-import { ControlButton, CustomTitle, EditableTitlePopover, EditableWrapper } from './styledComponents'
+import {
+	ControlButton,
+	CustomTitle,
+	EditableTitlePopover,
+	EditableWrapper,
+} from './styledComponents';
 import { EditableProps, Key } from './types';
 
 const Editable: React.FC<EditableProps> = ({
@@ -93,104 +98,154 @@ const Editable: React.FC<EditableProps> = ({
 	}, []);
 
 	const calculateDimensions = useMemo(() => {
-		const spanHeight = displayTextRef.current?.offsetHeight!
-		const spanWidth = displayTextRef.current?.offsetWidth!
+		const spanHeight = displayTextRef.current?.offsetHeight!;
+		const spanWidth = displayTextRef.current?.offsetWidth!;
 		return {
 			width: spanWidth > 0 ? spanWidth * 1.3 : 'inherit',
 			height: spanHeight > 0 ? spanHeight : 'inherit',
 		};
 	}, [editing]);
 
-	return useMemo(() => {
+	const renderCustomTitle = useMemo(() => {
 		return (
-			<React.Fragment>
-				<EditableWrapper
-					className='editable-title-wrapper'>
-					<CustomTitle
+			<CustomTitle
+				style={{
+					...(editing
+						? {
+								...inputStyle,
+								minWidth: `${placeholder.length * 8}px`,
+								padding: 'unset',
+								...(seamlessInput && styles.seamlessInput),
+								...(seamlessInput && calculateDimensions),
+						  }
+						: { display: 'none' }),
+				}}
+				ref={inputRef}
+				placeholder={placeholder}
+				value={displayText}
+				onChange={updateDisplayText}
+				onKeyDown={handleKeyDown}
+				minLength={inputMinLength}
+				maxLength={inputMaxLength}
+				onBlur={(saveOnBlur && handleSaveText) || undefined}
+			/>
+		);
+	}, [
+		editing,
+		displayText,
+		inputStyle,
+		placeholder,
+		seamlessInput,
+		saveOnBlur,
+		inputMaxLength,
+		inputMinLength,
+	]);
+
+	const renderTitlePopover = useMemo(() => {
+		return (
+			inputPattern &&
+			popupVisibile &&
+			editing && (
+				<EditableTitlePopover>
+					<span style={inputErrorMessageStyle}>{inputErrorMessage}</span>
+				</EditableTitlePopover>
+			)
+		);
+	}, [
+		inputPattern,
+		popupVisibile,
+		editing,
+		inputErrorMessageStyle,
+		inputErrorMessage,
+	]);
+
+	const renderEditControlButtons = useMemo(() => {
+		return (
+			editControlButtons && (
+				<React.Fragment>
+					<ControlButton
 						style={{
 							...(editing
 								? {
-										...inputStyle,
-										minWidth: `${placeholder.length * 8}px`,
-										padding: 'unset',
-										...(seamlessInput
-											&& styles.seamlessInput),
-										...(seamlessInput && calculateDimensions)
+										...saveButtonStyle,
+										...(text === displayText &&
+											styles.mainButton_save_disabled),
+										...styles.save,
+										position: 'relative',
 								  }
 								: { display: 'none' }),
 						}}
-						ref={inputRef}
-						placeholder={placeholder}
-						value={displayText}
-						onChange={updateDisplayText}
-						onKeyDown={handleKeyDown}
-						minLength={inputMinLength}
-						maxLength={inputMaxLength}
-						onBlur={saveOnBlur && handleSaveText || undefined}
-					/>
-					{inputPattern && popupVisibile && editing && (
-						<EditableTitlePopover>
-							<span style={inputErrorMessageStyle}>{inputErrorMessage}</span>
-						</EditableTitlePopover>
-					)}
-					<span
-						ref={displayTextRef}
-						className='displayText'
-						style={!editing ? { ...textStyle, ...styles.displayText } : { display: 'none' }}
-						onClick={handleClickOnText}>
-						{text}
-					</span>
-					{editButton && (
-						<ControlButton
-							style={{
-								...(!editing
-									? {
-											...editButtonStyle,
-											...styles.edit,
-									  }
-									: { display: 'none' }),
-							}}
-							onClick={handleClickOnText}>
-							<AiOutlineEdit
-								style={{ width: '1.25em', height: '1.25em', marginTop: '-50%' }}
-							/>
-						</ControlButton>
-					)}
-					{editControlButtons && (
-						<React.Fragment>
-							<ControlButton
-                style={{
-                  ...(editing
-                    ? {
-                        ...saveButtonStyle,
-                        ...(text === displayText && styles.mainButton_save_disabled),
-                        ...styles.save,
-                        position: 'relative'
-                      }
-                    : { display: 'none' }),
-                }}
-								onClick={handleSaveText}
-                disabled={text === displayText}>
-								<AiOutlineCheck style={{marginTop: '50%'}} />
-							</ControlButton>
-							<ControlButton
-                style={{
-                  ...(editing
-                    ? {
-                        ...cancelButtonStyle,
-                        ...styles.cancel,
-                      }
-                    : { display: 'none' }),
-                }}
-								onClick={terminateEditing}>
-								<AiOutlineClose style={{marginTop: '50%'}} />
-							</ControlButton>
-						</React.Fragment>
-					)}
-				</EditableWrapper>
-			</React.Fragment>
+						onClick={handleSaveText}
+						disabled={text === displayText}>
+						<AiOutlineCheck style={styles.editControlButtonIcon} />
+					</ControlButton>
+					<ControlButton
+						style={{
+							...(editing
+								? {
+										...cancelButtonStyle,
+										...styles.cancel,
+								  }
+								: { display: 'none' }),
+						}}
+						onClick={terminateEditing}>
+						<AiOutlineClose style={styles.editControlButtonIcon} />
+					</ControlButton>
+				</React.Fragment>
+			)
 		);
-	}, [displayText, editing, popupVisibile]);
+	}, [editControlButtons, editing, text, displayText, saveButtonStyle, cancelButtonStyle]);
+
+	const renderEditButton = useMemo(() => {
+		return (
+			editButton && (
+				<ControlButton
+					style={{
+						...(!editing
+							? {
+									...editButtonStyle,
+									...styles.edit,
+							  }
+							: { display: 'none' }),
+					}}
+					onClick={handleClickOnText}>
+					<AiOutlineEdit style={styles.editButtonIcon} />
+				</ControlButton>
+			)
+		);
+	}, [editButton, editing, editButtonStyle]);
+
+	const renderTextDisplay = useMemo(() => {
+		return (
+			<span
+					ref={displayTextRef}
+					className='displayText'
+					style={
+						!editing
+							? { ...textStyle, ...styles.displayText }
+							: { display: 'none' }
+					}
+					onClick={handleClickOnText}>
+					{text}
+				</span>
+		)
+	}, [textStyle, editing])
+
+	return (
+		<React.Fragment>
+			<EditableWrapper className='editable-title-wrapper'>
+				{renderCustomTitle}
+
+				{renderTitlePopover}
+
+				{renderTextDisplay}
+
+				{renderEditButton}
+
+				{renderEditControlButtons}
+			</EditableWrapper>
+		</React.Fragment>
+	);
 };
 
 const styles = {
@@ -210,7 +265,7 @@ const styles = {
 		marginRight: '1em',
 		cursor: 'pointer',
 		display: 'flex',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	mainButton_save_disabled: {
 		background: '#a4a5a7',
@@ -225,14 +280,13 @@ const styles = {
 	seamlessInput: {
 		outline: 'none',
 		border: '0',
-		minWidth: 'unset'
+		minWidth: 'unset',
 	},
 	editable_title_popover: {
 		marginTop: '-0.15em',
 	},
-	spanText: {
-
-	}
+	editButtonIcon: { width: '1.25em', height: '1.25em', marginTop: '-50%' },
+	editControlButtonIcon: { marginTop: '50%' },
 };
 
 export default Editable;
