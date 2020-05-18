@@ -38,6 +38,7 @@ const Editable: React.FC<EditableProps> = ({
 	const handleClickOnText = useCallback(() => {
 		setEditing(!editing);
 		setDisplayText(text);
+		setPopupVisible(false);
 		/* 
          A little hack to wait event-loop to flush-out itself
          The issue is, when the user clicked on the text 
@@ -53,9 +54,7 @@ const Editable: React.FC<EditableProps> = ({
 
 	const updateDisplayText = useCallback(() => {
 		setDisplayText(inputRef.current!.value);
-		if (popupVisibile) {
-			setPopupVisible(false);
-		}
+		setPopupVisible(false);
 	}, []);
 
 	const terminateEditing = useCallback(() => {
@@ -194,7 +193,14 @@ const Editable: React.FC<EditableProps> = ({
 				</React.Fragment>
 			)
 		);
-	}, [editControlButtons, editing, text, displayText, saveButtonStyle, cancelButtonStyle]);
+	}, [
+		editControlButtons,
+		editing,
+		text,
+		displayText,
+		saveButtonStyle,
+		cancelButtonStyle,
+	]);
 
 	const renderEditButton = useMemo(() => {
 		return (
@@ -218,18 +224,18 @@ const Editable: React.FC<EditableProps> = ({
 	const renderTextDisplay = useMemo(() => {
 		return (
 			<span
-					ref={displayTextRef}
-					className='displayText'
-					style={
-						!editing
-							? { ...textStyle, ...styles.displayText }
-							: { display: 'none' }
-					}
-					onClick={handleClickOnText}>
-					{text}
-				</span>
-		)
-	}, [textStyle, editing])
+				ref={displayTextRef}
+				className='displayText'
+				style={
+					!editing
+						? { ...textStyle, ...styles.displayText }
+						: { display: 'none' }
+				}
+				onClick={handleClickOnText}>
+				{text}
+			</span>
+		);
+	}, [textStyle, editing]);
 
 	return (
 		<React.Fragment>
