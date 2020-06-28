@@ -20,7 +20,7 @@ const Editable: React.FC<EditableProps> = ({
 	editControlButtons = false,
 	seamlessInput = false,
 	saveOnBlur = true,
-	initiallyFocused = false,
+	isFocused,
 	placeholder = 'Type Here',
 	textStyle,
 	inputStyle,
@@ -36,19 +36,29 @@ const Editable: React.FC<EditableProps> = ({
 	onEditCancel,
 	onValidationFail,
 }) => {
-	const [editing, setEditing] = useState(initiallyFocused);
+	const [editing, setEditing] = useState(isFocused || false);
 	const [popupVisibile, setPopupVisible] = useState(false);
 	const [displayText, setDisplayText] = useState('');
+	const [initialRender, setIsInitialRender] = useState(true);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const displayTextRef = useRef<HTMLSpanElement>(null);
 
 	useEffect(() => {
-		if (initiallyFocused) {
+		if (isFocused !== undefined) {
 			focusOnTextInput();
+			setIsInitialRender(false);
 		}
-	}, [initiallyFocused]);
+	}, [isFocused]);
 
 	const focusOnTextInput = useCallback(() => {
+		/* We are always setting to the opposite of boolean value
+			 First render should not do that.	
+		*/
+		if (!initialRender) {
+			setEditing(!editing);
+		}
+		setDisplayText(text);
+		setPopupVisible(false);
 		/* 
          A little hack to wait event-loop to flush-out itself
          The issue is, when the user clicked on the text 
@@ -60,14 +70,7 @@ const Editable: React.FC<EditableProps> = ({
 		setTimeout(() => {
 			inputRef.current?.focus();
 		}, 0);
-	}, [inputRef.current]);
-
-	const handleClickOnText = useCallback(() => {
-		setEditing(!editing);
-		setDisplayText(text);
-		setPopupVisible(false);
-		focusOnTextInput();
-	}, [editing]);
+	}, [editing, isFocused, initialRender]);
 
 	const updateDisplayText = useCallback(() => {
 		setDisplayText(inputRef.current!.value);
@@ -231,7 +234,7 @@ const Editable: React.FC<EditableProps> = ({
 							  }
 							: { display: 'none' }),
 					}}
-					onClick={handleClickOnText}>
+					onClick={focusOnTextInput}>
 					<AiOutlineEdit style={styles.editButtonIcon} />
 				</ControlButton>
 			)
@@ -248,7 +251,7 @@ const Editable: React.FC<EditableProps> = ({
 						? { ...textStyle, ...styles.displayText }
 						: { display: 'none' }
 				}
-				onClick={handleClickOnText}>
+				onClick={focusOnTextInput}>
 				{text}
 			</span>
 		);

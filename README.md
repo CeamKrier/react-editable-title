@@ -56,7 +56,7 @@ const App = () => {
 | `saveOnBlur`             | `boolean`       | Attempts to save text input on unfocus. **Default** is `true`      | No       |
 | `seamlessInput`          | `boolean`       | Presents text-editor alike experience. **Default** is `false`      | No       |
 | `inputStyle`             | `CSSProperties` | Custom input styling                                               | No       |
-| `initiallyFocused`       | `boolean`       | Defines initial focus on the input. **Default** is `false`         | No       |
+| `isFocused`              | `boolean`       | Externally sets the state of input focus. **Default** is `false`   | No       |
 | `inputPattern`           | `string`        | Regex pattern of desired input                                     | No       |
 | `inputErrorMessage`      | `string`        | Info message about mismatch of input                               | No       |
 | `inputErrorMessageStyle` | `CSSProperties` | Custom error message styling                                       | No       |
