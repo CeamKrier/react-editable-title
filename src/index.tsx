@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import React, {
+	useState,
+	useCallback,
+	useRef,
+	useMemo,
+	useEffect,
+} from 'react';
 import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai';
 import {
 	ControlButton,
@@ -14,6 +20,7 @@ const Editable: React.FC<EditableProps> = ({
 	editControlButtons = false,
 	seamlessInput = false,
 	saveOnBlur = true,
+	initiallyFocused = false,
 	placeholder = 'Type Here',
 	textStyle,
 	inputStyle,
@@ -29,16 +36,19 @@ const Editable: React.FC<EditableProps> = ({
 	onEditCancel,
 	onValidationFail,
 }) => {
-	const [editing, setEditing] = useState(false);
+	const [editing, setEditing] = useState(initiallyFocused);
 	const [popupVisibile, setPopupVisible] = useState(false);
 	const [displayText, setDisplayText] = useState('');
 	const inputRef = useRef<HTMLInputElement>(null);
 	const displayTextRef = useRef<HTMLSpanElement>(null);
 
-	const handleClickOnText = useCallback(() => {
-		setEditing(!editing);
-		setDisplayText(text);
-		setPopupVisible(false);
+	useEffect(() => {
+		if (initiallyFocused) {
+			focusOnTextInput();
+		}
+	}, [initiallyFocused]);
+
+	const focusOnTextInput = useCallback(() => {
 		/* 
          A little hack to wait event-loop to flush-out itself
          The issue is, when the user clicked on the text 
@@ -50,6 +60,13 @@ const Editable: React.FC<EditableProps> = ({
 		setTimeout(() => {
 			inputRef.current?.focus();
 		}, 0);
+	}, [inputRef.current]);
+
+	const handleClickOnText = useCallback(() => {
+		setEditing(!editing);
+		setDisplayText(text);
+		setPopupVisible(false);
+		focusOnTextInput();
 	}, [editing]);
 
 	const updateDisplayText = useCallback(() => {

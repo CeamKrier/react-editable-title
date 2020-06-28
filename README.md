@@ -56,11 +56,13 @@ const App = () => {
 | `saveOnBlur`             | `boolean`       | Attempts to save text input on unfocus. **Default** is `true`      | No       |
 | `seamlessInput`          | `boolean`       | Presents text-editor alike experience. **Default** is `false`      | No       |
 | `inputStyle`             | `CSSProperties` | Custom input styling                                               | No       |
+| `initiallyFocused`       | `boolean`       | Defines initial focus on the input. **Default** is `false`         | No       |
 | `inputPattern`           | `string`        | Regex pattern of desired input                                     | No       |
 | `inputErrorMessage`      | `string`        | Info message about mismatch of input                               | No       |
 | `inputErrorMessageStyle` | `CSSProperties` | Custom error message styling                                       | No       |
 | `inputMinLength`         | `number`        | Min length accepted as an input                                    | No       |
 | `inputMaxLength`         | `number`        | Max length accepted as an input                                    | No       |
+
 
 
 

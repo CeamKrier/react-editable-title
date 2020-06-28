@@ -25,4 +25,5 @@ export interface EditableProps {
 	cb: (currentText: string) => any;
 	onEditCancel?: Function;
 	onValidationFail?: Function;
+	initiallyFocused?: boolean;
 }

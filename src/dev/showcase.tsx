@@ -44,6 +44,7 @@ const Showcase: React.FC = () => {
           placeholder="Type here"
           cb={handleTextUpdate}
           onEditCancel={handleEditCancel}
+          initiallyFocused
           />        
           <p />
           <p>

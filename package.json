@@ -1,11 +1,11 @@
 {
 	"name": "react-editable-title",
-	"version": "1.2.8",
+	"version": "1.2.9",
 	"description": "An editable title implementation for the react.",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",
 	"scripts": {
-		"dev": "webpack-dev-server --config ./webpack.config.js --inline --hot --port 2000",
+		"dev": "webpack-dev-server --config ./webpack.config.js --inline --hot --port 3000",
 		"prebuild": "rimraf lib",
 		"build": "tsc",
 		"version:up": "npm version --force -m \"chore: version bumped to %s\"",
