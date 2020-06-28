@@ -1,6 +1,6 @@
 {
 	"name": "react-editable-title",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"description": "An editable title implementation for the react.",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",

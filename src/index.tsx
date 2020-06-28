@@ -36,27 +36,28 @@ const Editable: React.FC<EditableProps> = ({
 	onEditCancel,
 	onValidationFail,
 }) => {
-	const [editing, setEditing] = useState(isFocused || false);
+	/* 
+		If isFocused value presents in props, then focusOnText function 
+		being called upon rendering the component (to give instant focus).
+
+		I tried to implement a logic for that instead of writing the ugly line
+		below but number of variables kept growing to express what I trying to achieve.
+		So, forgive me :x
+	*/
+	const [editing, setEditing] = useState(isFocused === false ? true : false);
 	const [popupVisibile, setPopupVisible] = useState(false);
 	const [displayText, setDisplayText] = useState('');
-	const [initialRender, setIsInitialRender] = useState(true);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const displayTextRef = useRef<HTMLSpanElement>(null);
 
 	useEffect(() => {
 		if (isFocused !== undefined) {
 			focusOnTextInput();
-			setIsInitialRender(false);
 		}
 	}, [isFocused]);
 
 	const focusOnTextInput = useCallback(() => {
-		/* We are always setting to the opposite of boolean value
-			 First render should not do that.	
-		*/
-		if (!initialRender) {
-			setEditing(!editing);
-		}
+		setEditing(!editing);
 		setDisplayText(text);
 		setPopupVisible(false);
 		/* 
@@ -70,7 +71,7 @@ const Editable: React.FC<EditableProps> = ({
 		setTimeout(() => {
 			inputRef.current?.focus();
 		}, 0);
-	}, [editing, isFocused, initialRender]);
+	}, [editing, isFocused]);
 
 	const updateDisplayText = useCallback(() => {
 		setDisplayText(inputRef.current!.value);

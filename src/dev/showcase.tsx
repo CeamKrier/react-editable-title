@@ -6,7 +6,7 @@ const Showcase: React.FC = () => {
 	const [text, setText] = useState('Hellow');
 	const [hondaModel, setHondaModel] = useState('Accord');
 	const [hondaYear, setHondaYear] = useState('2009');
-	const [focused, setFocused] = useState(false);
+	const [focused, setFocused] = useState(true);
 
 	const handleEditCancel = () => {
 		console.log('First editable title`s edit has been canceled');
